@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\SocialAccount;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -17,30 +18,38 @@ class GoogleController extends Controller
     public function handleGoogleCallback()
     {
         try {
-            $user = Socialite::driver('google')->user();
+            $googleUser = Socialite::driver('google')->stateless()->user();
 
-            // Logika za prijavljivanje ili kreiranje korisnika
-            $findUser = User::where('email', $user->email)->first();
+            // Check if the social account exists
+            $socialAccount = SocialAccount::where('provider_name', 'google')
+                ->where('provider_id', $googleUser->getId())
+                ->first();
 
-            if ($findUser) {
-                Auth::login($findUser);
-
-                return redirect()->intended('/dashboard'); // ili bilo koja stranica
+            if ($socialAccount) {
+                // If the social account exists, log in the associated user
+                Auth::login($socialAccount->user);
             } else {
-                // Ako korisnik ne postoji, kreiramo ga
-                $newUser = User::create([
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'google_id' => $user->id,
-                    'password' => bcrypt('random_password'), // Preporučeno je generisanje nasumične lozinke
+                // Find or create the user in the users table
+                $user = User::firstOrCreate(
+                    ['email' => $googleUser->getEmail()],
+                    ['name' => $googleUser->getName(), 'password' => bcrypt('default_password')] // Default password or ignore
+                );
+
+                // Create a new social account for this user
+                $user->socialAccounts()->create([
+                    'provider_name' => 'google',
+                    'provider_id' => $googleUser->getId(),
                 ]);
 
-                Auth::login($newUser);
-
-                return redirect()->intended('/dashboard'); // ili druga stranica
+                Auth::login($user);
             }
+
+            // Redirect to the dashboard
+            return redirect()->route('dashboard');
         } catch (\Exception $e) {
-            return redirect('/login')->withErrors(['error' => 'Nešto je pošlo po zlu!']);
+            // Log error and redirect back with a message
+            \Log::error('Google Login Error: ' . $e->getMessage());
+            return redirect()->route('login')->withErrors(['message' => 'Failed to login with Google.']);
         }
     }
 }

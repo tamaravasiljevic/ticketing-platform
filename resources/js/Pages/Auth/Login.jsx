@@ -7,7 +7,7 @@ import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, usePage, useForm } from '@inertiajs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -83,11 +83,21 @@ export default function Login({ status, canResetPassword }) {
                 </div>
                 <div className="mt-4 flex justify-center">
                     <PrimaryButton
-                        href="/google"
+                        type="button" // Prevent triggering form submission
+                        onClick={() => (window.location.href = route('google.login'))}
                         className=" hover:bg-red-600 text-white inline-flex items-center justify-center space-x-2"
                     >
                         <FontAwesomeIcon icon={faGoogle} className="w-5 h-5"/>
                         <span>Sign in with Google</span>
+                    </PrimaryButton>
+                </div>
+                <div className="mt-4 flex justify-center">
+                    <PrimaryButton
+                        href="/facebook"
+                        className=" hover:bg-red-600 text-white inline-flex items-center justify-center space-x-2"
+                    >
+                        <FontAwesomeIcon icon={faFacebook} className="w-5 h-5"/>
+                        <span>Sign in with Faceboook </span>
                     </PrimaryButton>
                 </div>
                 <div className="mt-4 flex items-center justify-end">
