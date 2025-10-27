@@ -81,14 +81,14 @@ export default function Login({ status, canResetPassword }) {
                         </span>
                     </label>
                 </div>
-                <div className="mt-4">
-                    <a
+                <div className="mt-4 flex justify-center">
+                    <PrimaryButton
                         href="/google"
-                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded w-full inline-flex items-center justify-center space-x-2"
+                        className=" hover:bg-red-600 text-white inline-flex items-center justify-center space-x-2"
                     >
                         <FontAwesomeIcon icon={faGoogle} className="w-5 h-5"/>
                         <span>Sign in with Google</span>
-                    </a>
+                    </PrimaryButton>
                 </div>
                 <div className="mt-4 flex items-center justify-end">
                     {canResetPassword && (
