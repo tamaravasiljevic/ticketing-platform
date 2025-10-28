@@ -81,25 +81,20 @@ export default function Login({ status, canResetPassword }) {
                         </span>
                     </label>
                 </div>
-                <div className="mt-4 flex justify-center">
+                <div className="mt-4 flex justify-center gap-4">
                     <PrimaryButton
-                        type="button" // Prevent triggering form submission
+                        type="button"
                         onClick={() => (window.location.href = route('google.login'))}
-                        className=" hover:bg-red-600 text-white inline-flex items-center justify-center space-x-2"
+                        className="p-3 bg-red-100 text-red-500 hover:bg-red-200 flex items-center justify-center rounded-full transition-all duration-200 ease-in-out shadow hover:scale-110"
                     >
                         <FontAwesomeIcon icon={faGoogle} className="w-5 h-5"/>
-                        <span>Sign in with Google</span>
                     </PrimaryButton>
-                </div>
-                <div className="mt-4 flex justify-center">
                     <PrimaryButton
-                        type="button" // Prevent triggering form submission
+                        type="button"
                         onClick={() => (window.location.href = route('facebook.login'))}
-
-                        className=" hover:bg-red-600 text-white inline-flex items-center justify-center space-x-2"
+                        className="p-3 bg-blue-100 text-blue-500 hover:bg-blue-200 flex items-center justify-center rounded-full transition-all duration-200 ease-in-out shadow hover:scale-110"
                     >
                         <FontAwesomeIcon icon={faFacebook} className="w-5 h-5"/>
-                        <span>Sign in with Faceboook </span>
                     </PrimaryButton>
                 </div>
                 <div className="mt-4 flex items-center justify-end">

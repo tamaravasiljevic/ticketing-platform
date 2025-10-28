@@ -9,6 +9,9 @@ export default defineConfig({
             '@': path.resolve(__dirname, 'resources/js'), // Map `@` to `resources/js` folder
         },
     },
+    optimizeDeps: {
+        include: ['react', 'react-dom', '@inertiajs/react', 'axios'],
+    },
     server: {
         host: '0.0.0.0',
         port: 5173,
@@ -19,8 +22,5 @@ export default defineConfig({
             protocol: 'wss', // Use WebSocket Secure for Ngrok
             host: 'unitalicized-unsadistic-lainey.ngrok-free.dev', // Use Ngrok's domain for HMR
         },
-        // hmr: {
-        //     host: 'unitalicized-unsadistic-lainey.ngrok-free.dev',
-        // },
     },
 });
