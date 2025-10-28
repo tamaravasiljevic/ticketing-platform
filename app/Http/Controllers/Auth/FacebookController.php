@@ -36,13 +36,12 @@ class FacebookController extends Controller
                     ],
                     [
                         'name' => $facebookUser->getName(),
-                        'password' => bcrypt('default_password')
-                    ] // Default password or ignore
+                    ]
                 );
 
                 // Create a new social account for this user
                 $user->socialAccounts()->create([
-                    'provider_name' => 'google',
+                    'provider_name' => 'facebook',
                     'provider_id' => $facebookUser->id,
                 ]);
 

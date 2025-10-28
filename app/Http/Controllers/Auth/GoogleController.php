@@ -31,8 +31,12 @@ class GoogleController extends Controller
             } else {
                 // Find or create the user in the users table
                 $user = User::firstOrCreate(
-                    ['email' => $googleUser->getEmail()],
-                    ['name' => $googleUser->getName(), 'password' => bcrypt('default_password')] // Default password or ignore
+                    [
+                        'email' => $googleUser->getEmail()
+                    ],
+                    [
+                        'name' => $googleUser->getName(),
+                    ]
                 );
 
                 // Create a new social account for this user
