@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\FacebookController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -28,5 +29,6 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
-
+Route::get('/facebook/redirect', [FacebookController::class, 'redirectToFacebook'])->name('facebook.login');
+Route::get('/facebook/callback', [FacebookController::class, 'handleFacebookCallback'])->name('facebook.callback');
 require __DIR__.'/auth.php';

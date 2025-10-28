@@ -93,7 +93,9 @@ export default function Login({ status, canResetPassword }) {
                 </div>
                 <div className="mt-4 flex justify-center">
                     <PrimaryButton
-                        href="/facebook"
+                        type="button" // Prevent triggering form submission
+                        onClick={() => (window.location.href = route('facebook.login'))}
+
                         className=" hover:bg-red-600 text-white inline-flex items-center justify-center space-x-2"
                     >
                         <FontAwesomeIcon icon={faFacebook} className="w-5 h-5"/>

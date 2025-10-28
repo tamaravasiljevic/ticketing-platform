@@ -13,10 +13,14 @@ export default defineConfig({
         host: '0.0.0.0',
         port: 5173,
         strictPort: true,
+        origin: 'https://unitalicized-unsadistic-lainey.ngrok-free.dev', // Your Ngrok domain
+        cors: true,
         hmr: {
-            host: 'localhost',
-            port: 5173,
-            protocol: 'ws',
+            protocol: 'wss', // Use WebSocket Secure for Ngrok
+            host: 'unitalicized-unsadistic-lainey.ngrok-free.dev', // Use Ngrok's domain for HMR
         },
+        // hmr: {
+        //     host: 'unitalicized-unsadistic-lainey.ngrok-free.dev',
+        // },
     },
 });
