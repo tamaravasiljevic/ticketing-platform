@@ -7,7 +7,7 @@ import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, usePage, useForm } from '@inertiajs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { faGoogle, faFacebook, faGithub } from '@fortawesome/free-brands-svg-icons';
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -95,6 +95,13 @@ export default function Login({ status, canResetPassword }) {
                         className="p-3 bg-blue-100 text-blue-500 hover:bg-blue-200 flex items-center justify-center rounded-full transition-all duration-200 ease-in-out shadow hover:scale-110"
                     >
                         <FontAwesomeIcon icon={faFacebook} className="w-5 h-5"/>
+                    </PrimaryButton>
+                    <PrimaryButton
+                        type="button"
+                        onClick={() => (window.location.href = route('github.login'))}
+                        className="p-3 bg-gray-800 text-white hover:bg-gray-900 flex items-center justify-center rounded-full transition-all duration-200 ease-in-out shadow hover:scale-110"
+                    >
+                        <FontAwesomeIcon icon={faGithub} className="w-5 h-5" />
                     </PrimaryButton>
                 </div>
                 <div className="mt-4 flex items-center justify-end">
