@@ -7,6 +7,7 @@ use App\Models\SocialAccount;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Contracts\User as SocialUser;
 
 class SocialLoginController extends Controller
 {
@@ -21,45 +22,82 @@ class SocialLoginController extends Controller
     {
         try {
             $socialUser = Socialite::driver('github')->user();
-
-            // Check if there's an existing social account
-            $account = SocialAccount::where('provider_name', 'github')
-                ->where('provider_id', $socialUser->getId())
-                ->first();
-
-            if ($account) {
-                // Login the user linked with this social account
-                $user = $account->user;
-                Auth::login($user);
-
-                return redirect()->route('home');
-            } else {
-                // Check if the user exists based on their email
-                $user = User::where('email', $socialUser->getEmail())->first();
-
-                if (!$user) {
-                    // Create the user if they don't exist
-                    $user = User::create([
-                        'name' => $socialUser->getName(),
-                        'email' => $socialUser->getEmail(),
-                        'password' => bcrypt(str_random(16)), // Generate a random password
-                    ]);
-                }
-
-                // Link the social account
-                $user->socialAccounts()->create([
-                    'provider_name' => 'github',
-                    'provider_id' => $socialUser->getId(),
-                ]);
-
-                Auth::login($user);
-
-                return redirect()->route('home');
-            }
+            $this->handleLogin($socialUser, 'github');
+            return redirect()->route('dashboard');
         } catch (\Exception $e) {
-            Log::error('Github Login Error: ' . $e->getMessage());;
+            \Log::error('Github Login Error: ' . $e->getMessage());;
             return redirect()->route('login')->withErrors(['error' => 'Unable to login using GitHub. Please try again.']
             );
         }
+    }
+
+    public function redirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function handleFacebookCallback()
+    {
+        try {
+            $facebookUser = Socialite::driver('facebook')->stateless()->user();
+            $this->handleLogin($facebookUser, 'facebook');
+            return redirect()->route('dashboard')->withFragment('');
+        } catch (\Exception $e) {
+            // Log error and redirect back with a message
+            \Log::error('Facebook Login Error: ' . $e->getMessage());
+            return redirect()->route('login')->withErrors(['message' => 'Failed to login with Facebook.']);
+        }
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
+            $this->handleLogin($googleUser, 'google');
+            // Redirect to the dashboard
+            return redirect()->route('dashboard');
+        } catch (\Exception $e) {
+            // Log error and redirect back with a message
+            \Log::error('Google Login Error: ' . $e->getMessage());
+            return redirect()->route('login')->withErrors(['message' => 'Failed to login with Google.']);
+        }
+    }
+
+    private function handleLogin(?SocialUser $socialUser, string $social)
+    {
+        // Check if there's an existing social account
+        $account = SocialAccount::where('provider_name', $social)
+            ->where('provider_id', $socialUser->getId())
+            ->first();
+
+        if ($account) {
+            // Login the user linked with this social account
+            $user = $account->user;
+            Auth::login($user);
+        } else {
+            // Check if the user exists based on their email
+            $user = User::firstWhere('email', $socialUser->getEmail());
+
+            if (!$user) {
+                // Create the user if they don't exist
+                $user = User::create([
+                    'name' => $socialUser->getName(),
+                    'email' => $socialUser->getEmail()
+                ]);
+            }
+
+            // Link the social account
+            $user->socialAccounts()->create([
+                'provider_name' => $social,
+                'provider_id' => $socialUser->getId(),
+            ]);
+        }
+
+        return redirect()->route('dashboard')->withFragment('');;
     }
 }

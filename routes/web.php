@@ -4,8 +4,6 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\Auth\GoogleController;
-use App\Http\Controllers\Auth\FacebookController;
 use App\Http\Controllers\Auth\SocialLoginController;
 
 Route::get('/', function () {
@@ -28,10 +26,10 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
-Route::get('/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
-Route::get('/facebook/redirect', [FacebookController::class, 'redirectToFacebook'])->name('facebook.login');
-Route::get('/facebook/callback', [FacebookController::class, 'handleFacebookCallback'])->name('facebook.callback');
+Route::get('/google', [SocialLoginController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/google/callback', [SocialLoginController::class, 'handleGoogleCallback'])->name('google.callback');
+Route::get('/facebook/redirect', [SocialLoginController::class, 'redirectToFacebook'])->name('facebook.login');
+Route::get('/facebook/callback', [SocialLoginController::class, 'handleFacebookCallback'])->name('facebook.callback');
 Route::get('/github', [SocialLoginController::class, 'redirectToGitHub'])->name('github.login');
 Route::get('/github/callback', [SocialLoginController::class, 'handleGitHubCallback']);
 
