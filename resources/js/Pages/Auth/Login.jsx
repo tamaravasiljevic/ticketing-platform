@@ -85,7 +85,7 @@ export default function Login({ status, canResetPassword }) {
                     <PrimaryButton
                         type="button"
                         onClick={() => (window.location.href = route('google.login'))}
-                        className="p-3 bg-red-100 text-red-500 hover:bg-red-200 flex items-center justify-center rounded-full transition-all duration-200 ease-in-out shadow hover:scale-110"
+                        className="p-3 bg-blue-100 text-blue-500 hover:bg-blue-200 flex items-center justify-center rounded-full transition-all duration-200 ease-in-out shadow hover:scale-110"
                     >
                         <FontAwesomeIcon icon={faGoogle} className="w-5 h-5"/>
                     </PrimaryButton>
