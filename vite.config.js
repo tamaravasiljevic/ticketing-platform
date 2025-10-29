@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import { resolve } from 'path';
 
 export default defineConfig({
     plugins: [react()],
@@ -20,7 +21,8 @@ export default defineConfig({
         cors: true,
         hmr: {
             protocol: 'wss', // Use WebSocket Secure for Ngrok
-            host: 'unitalicized-unsadistic-lainey.ngrok-free.dev', // Use Ngrok's domain for HMR
+            host: 'unitalicized-unsadistic-lainey.ngrok-free.dev',
+
         },
     },
 });
