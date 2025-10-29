@@ -9,6 +9,8 @@ services:
       - ./:/var/www
     networks:
       - laravel
+    depends_on:
+      - redis
 
   webserver:
     image: nginx:alpine
@@ -33,14 +35,15 @@ services:
       MYSQL_PASSWORD: secret
     ports:
       - "3307:3306"
+    command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0
     volumes:
       - dbdata:/var/lib/mysql
     networks:
       - laravel
 
   redis:
-    image: redis:7
-    container_name: laravel_redis
+    image: redis:alpine
+    container_name: redis
     ports:
       - "6379:6379"
     networks:
@@ -58,7 +61,17 @@ services:
       - db
     networks:
       - laravel
-
+  vite:
+    build:
+      context: .
+    command: npm run dev
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - /var/www/node_modules
+    ports:
+      - "5173:5173" # Expose Vite dev server on port 5173
+      - "5174:5174" # Sometimes Vite uses this port for WebSocket
 volumes:
   dbdata:
 

@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     autoconf \
     build-essential \
+    mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js 20 + npm
