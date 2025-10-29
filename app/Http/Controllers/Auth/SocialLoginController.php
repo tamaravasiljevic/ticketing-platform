@@ -22,7 +22,7 @@ class SocialLoginController extends Controller
     {
         try {
             $socialUser = Socialite::driver('github')->user();
-            $this->handleLogin($socialUser, 'github');
+            $this->handleLogin('github', $socialUser);
             return redirect()->route('dashboard');
         } catch (\Exception $e) {
             \Log::error('Github Login Error: ' . $e->getMessage());;
@@ -40,7 +40,7 @@ class SocialLoginController extends Controller
     {
         try {
             $facebookUser = Socialite::driver('facebook')->stateless()->user();
-            $this->handleLogin($facebookUser, 'facebook');
+            $this->handleLogin( 'facebook', $facebookUser);
             return redirect()->route('dashboard')->withFragment('');
         } catch (\Exception $e) {
             // Log error and redirect back with a message
@@ -58,7 +58,7 @@ class SocialLoginController extends Controller
     {
         try {
             $googleUser = Socialite::driver('google')->stateless()->user();
-            $this->handleLogin($googleUser, 'google');
+            $this->handleLogin('google', $googleUser);
             // Redirect to the dashboard
             return redirect()->route('dashboard');
         } catch (\Exception $e) {
@@ -68,7 +68,7 @@ class SocialLoginController extends Controller
         }
     }
 
-    private function handleLogin(?SocialUser $socialUser, string $social)
+    private function handleLogin(string $social, ?SocialUser $socialUser)
     {
         // Check if there's an existing social account
         $account = SocialAccount::where('provider_name', $social)
@@ -97,7 +97,5 @@ class SocialLoginController extends Controller
                 'provider_id' => $socialUser->getId(),
             ]);
         }
-
-        return redirect()->route('dashboard')->withFragment('');;
     }
 }
