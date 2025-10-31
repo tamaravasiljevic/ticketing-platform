@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EventOccurrences extends Model
 {
@@ -20,7 +21,8 @@ class EventOccurrences extends Model
         ];
     }
 
-    public function event() {
+    public function event() : BelongsTo
+    {
         return $this->belongsTo(Event::class);
     }
 }

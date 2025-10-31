@@ -1,6 +1,7 @@
 <?php
 namespace App\Console;
 
+use App\Models\Event;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -22,9 +23,21 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Example: Run the "backup:clean" command daily
-        // $schedule->command('backup:clean')->dailyAt('01:00');
+        $schedule->call(function () {
+            // publish events if it's time
+            Event::where('status', Event::STATUS_DRAFT)
+                ->whereNotNull('publish_at')
+                ->where('publish_at', '<=', now())
+                ->update(['status' => Event::STATUS_PUBLISHED]);
+
+            // update status to expired if needed
+            Event::where('status', Event::STATUS_PUBLISHED)
+                ->whereNotNull('expire_at')
+                ->where('expire_at', '<=', now())
+                ->update(['status' => Event::STATUS_EXPIRED]);
+        })->everyMinute();
     }
+
 
     /**
      * Register the commands for the application.
