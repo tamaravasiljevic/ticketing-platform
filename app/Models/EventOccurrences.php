@@ -13,13 +13,10 @@ class EventOccurrences extends Model
         'end_time',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'start_time' => 'datetime',
-            'end_time' => 'datetime',
-        ];
-    }
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime'
+    ];
 
     public function event() : BelongsTo
     {
