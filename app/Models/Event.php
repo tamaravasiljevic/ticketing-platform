@@ -28,9 +28,10 @@ class Event extends Model
     |--------------------------------------------------------------------------
     */
     protected $fillable = [
-        'title',
+        'name',
         'slug',
         'description',
+        'location',
         'start_time',
         'end_time',
         'min_tickets_per_customer',

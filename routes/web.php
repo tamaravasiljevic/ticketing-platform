@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\SocialLoginController;
+use App\Http\Controllers\TicketController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -32,6 +33,5 @@ Route::get('/facebook/redirect', [SocialLoginController::class, 'redirectToFaceb
 Route::get('/facebook/callback', [SocialLoginController::class, 'handleFacebookCallback'])->name('facebook.callback');
 Route::get('/github', [SocialLoginController::class, 'redirectToGitHub'])->name('github.login');
 Route::get('/github/callback', [SocialLoginController::class, 'handleGitHubCallback']);
-
 
 require __DIR__.'/auth.php';

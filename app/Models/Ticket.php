@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class Ticket extends Model
 {
@@ -28,6 +29,21 @@ class Ticket extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(TicketCategory::class);
+        return $this->belongsTo(TicketCategory::class, 'ticket_category_id');
+    }
+
+    /**
+     * Indirect relationship to Event through TicketCategory.
+     */
+    public function event()
+    {
+        return $this->hasOneThrough(
+            Event::class,            // The final model we want to reach (Event).
+            TicketCategory::class,   // The intermediate model (TicketCategory).
+            'id',                    // Foreign key on TicketCategory (to Ticket).
+            'id',                    // Foreign key on Event (to TicketCategory).
+            'ticket_category_id',    // Local key on Ticket (to TicketCategory).
+            'event_id'               // Local key on TicketCategory (to Event).
+        );
     }
 }

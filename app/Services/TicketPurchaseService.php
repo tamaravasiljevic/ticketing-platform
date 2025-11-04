@@ -10,6 +10,7 @@ class TicketPurchaseService
 {
     public function buy($user, TicketCategory $category, $quantity)
     {
+        $response = [];
         return DB::transaction(function () use ($user, $category, $quantity) {
             // lock row - disable overselling
             $category = TicketCategory::where('id', $category->id)
@@ -17,21 +18,22 @@ class TicketPurchaseService
                 ->first();
 
             if (!$category->is_active || ($category->sold + $quantity > $category->quota)) {
-                throw new Exception('Category sold.');
+                throw new Exception('Category sold out.');
             }
 
             $alreadyBought = Ticket::where('user_id', $user->id)
                 ->where('ticket_category_id', $category->id)
                 ->count();
 
-            if ($alreadyBought + $quantity > $category->max_per_user) {
+            if ($alreadyBought + $quantity > $category->event->max_tickets_per_customer) {
                 throw new Exception('Maximum number of tickets per user exceeded.');
             }
 
             // create tickets
             for ($i = 0; $i < $quantity; $i++) {
-                Ticket::create([
+                $response[] = Ticket::create([
                     'user_id' => $user->id,
+                    'original_user_id' => $user->id,
                     'ticket_category_id' => $category->id,
                 ]);
             }
@@ -43,7 +45,7 @@ class TicketPurchaseService
                 $category->update(['is_active' => false]);
             }
 
-            return true;
+            return $response;
         });
     }
 }
