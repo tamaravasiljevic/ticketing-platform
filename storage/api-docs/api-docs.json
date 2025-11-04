@@ -1,0 +1,124 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Ticketing API",
+        "description": "API for managing event tickets",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/tickets/purchase": {
+            "post": {
+                "tags": [
+                    "Tickets"
+                ],
+                "summary": "Purchase a ticket",
+                "description": "Purchase a ticket.",
+                "operationId": "purchaseTicket",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "description": "ID of the user purchasing the ticket",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "event_id": {
+                                        "description": "ID of the event",
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "quantity": {
+                                        "description": "Number of tickets to purchase",
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ticket successfully purchased",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "event_id": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "purchase_date": {
+                                            "type": "string",
+                                            "example": "2023-10-12T12:00:00.000000Z"
+                                        },
+                                        "event": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Tech Conference 2023"
+                                                },
+                                                "start_time": {
+                                                    "type": "string",
+                                                    "example": "2023-10-20T10:00:00.000000Z"
+                                                },
+                                                "end_time": {
+                                                    "type": "string",
+                                                    "example": "2023-10-20T13:00:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Tickets",
+            "description": "Tickets"
+        }
+    ]
+}
