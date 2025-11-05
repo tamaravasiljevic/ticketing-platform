@@ -33,5 +33,4 @@ Route::get('/facebook/callback', [SocialLoginController::class, 'handleFacebookC
 Route::get('/github', [SocialLoginController::class, 'redirectToGitHub'])->name('github.login');
 Route::get('/github/callback', [SocialLoginController::class, 'handleGitHubCallback']);
 
-
 require __DIR__.'/auth.php';

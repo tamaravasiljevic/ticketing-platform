@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Sluggable\HasSlug;
@@ -9,7 +10,7 @@ use Spatie\Sluggable\SlugOptions;
 
 class Event extends Model
 {
-    use HasSlug;
+    use HasFactory, HasSlug;
 
     /*
     |--------------------------------------------------------------------------
@@ -28,9 +29,10 @@ class Event extends Model
     |--------------------------------------------------------------------------
     */
     protected $fillable = [
-        'title',
+        'name',
         'slug',
         'description',
+        'location',
         'start_time',
         'end_time',
         'min_tickets_per_customer',
