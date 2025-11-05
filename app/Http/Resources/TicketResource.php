@@ -45,22 +45,24 @@ class TicketResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $category = $this->category;
+        $event = $this->category->event;
         return [
             'id' => $this->id,
-            'category' => $this->category->name,
-            'sold' => $this->category->sold,
-            'price' => $this->category->price,
-            'event_id' => $this->event->id,
+            'category' => $category->name,
+            'sold' => $category->sold,
+            'price' => $category->price,
+            'event_id' => $category->event_id,
             'user_id' => $this->user_id,
             'user_name' => $this->user->name,
             'purchase_date' => $this->created_at,
             'code' => $this->code,
             'event' => [
-                'id' => $this->event->id,
-                'name' => $this->event->name,
-                'start_time' => $this->event->start_time,
-                'end_time' => $this->event->end_time,
-                'location' => $this->event->location
+                'id' => $event->id,
+                'name' => $event->name,
+                'start_time' => $event->start_time,
+                'end_time' => $event->end_time,
+                'location' => $event->location
             ],
         ];
     }

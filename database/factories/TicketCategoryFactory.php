@@ -19,7 +19,7 @@ class TicketCategoryFactory extends Factory
     {
         return [
             'event_id' => Event::factory()->create()->id,
-            'name' =>  $this->faker->sentence(4), // Generates a random name with 4 words
+            'name' =>  $this->faker->sentence(2), // Generates a random name with 2 words
             'price' => $this->faker->randomDigit(),
             'quota' => 10,
             'sold' => 0,
