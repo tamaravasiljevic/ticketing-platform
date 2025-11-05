@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\TicketCategoryNotFoundException;
 use App\Http\Requests\TicketPurchaseRequest;
 use App\Http\Resources\TicketResource;
 use App\Models\TicketCategory;
 use App\Services\TicketPurchaseService;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @OA\Info(
@@ -63,13 +65,22 @@ class TicketController extends Controller
     public function purchase(TicketPurchaseRequest $request, TicketPurchaseService $service)
     {
         $data = $request->input();
-        $category = TicketCategory::findOrFail($data['category_id']);
+        $category = TicketCategory::find($data['category_id']);
+
+        if (!$category) {
+            throw new TicketCategoryNotFoundException(sprintf('Ticket Category with id: %s not found', $data['category_id']));
+        }
 
         try {
             $response = $service->buy($request->user(), $category, $data['quantity']);
             return TicketResource::collection($response);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 422);
+            Log::error('Ticket purchase error', [
+                'code' => $e->getCode(),
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
     }
 }

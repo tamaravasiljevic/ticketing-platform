@@ -18,7 +18,7 @@ class TicketPurchaseService
                 ->first();
 
             if (!$category->is_active || ($category->sold + $quantity > $category->quota)) {
-                throw new Exception('Category sold out.');
+                throw new Exception('Category sold out.', 422);
             }
 
             $alreadyBought = Ticket::where('user_id', $user->id)
@@ -26,7 +26,7 @@ class TicketPurchaseService
                 ->count();
 
             if ($alreadyBought + $quantity > $category->event->max_tickets_per_customer) {
-                throw new Exception('Maximum number of tickets per user exceeded.');
+                throw new Exception('Maximum number of tickets per user exceeded.', 422);
             }
 
             // create tickets

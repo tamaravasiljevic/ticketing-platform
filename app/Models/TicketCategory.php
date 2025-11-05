@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TicketCategory extends Model
 {
-    protected $fillable = ['event_id', 'name', 'price', 'quota', 'sold', 'max_per_user', 'is_active'];
+    use HasFactory;
+    protected $fillable = ['event_id', 'name', 'price', 'quota', 'sold', 'is_active'];
 
     public function event(): BelongsTo
     {

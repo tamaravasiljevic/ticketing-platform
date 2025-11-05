@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 class Ticket extends Model
 {
+    use HasFactory;
     protected $fillable = ['user_id', 'original_user_id', 'ticket_category_id', 'code'];
 
     protected static function booted(): void
