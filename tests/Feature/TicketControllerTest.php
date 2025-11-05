@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Event;
-use App\Models\Ticket; // Import related models
+use App\Models\Ticket;
 use App\Models\TicketCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
