@@ -20,11 +20,6 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "user_id": {
-                                        "description": "ID of the user purchasing the ticket",
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "event_id": {
                                         "description": "ID of the event",
                                         "type": "integer",
@@ -47,55 +42,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "event_id": {
-                                            "type": "integer",
-                                            "example": 5
-                                        },
-                                        "user_id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "quantity": {
-                                            "type": "integer",
-                                            "example": 2
-                                        },
-                                        "purchase_date": {
-                                            "type": "string",
-                                            "example": "2023-10-12T12:00:00.000000Z"
-                                        },
-                                        "event": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 5
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "Tech Conference 2023"
-                                                },
-                                                "start_time": {
-                                                    "type": "string",
-                                                    "example": "2023-10-20T10:00:00.000000Z"
-                                                },
-                                                "end_time": {
-                                                    "type": "string",
-                                                    "example": "2023-10-20T13:00:00.000000Z"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/Ticket Resource"
                                 }
                             }
                         }
                     },
-                    "400": {
+                    "422": {
                         "description": "Invalid input data",
                         "content": {
                             "application/json": {
@@ -112,6 +64,112 @@
                         }
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Event": {
+                "title": "Event Resource",
+                "description": "An event resource associated with a ticket",
+                "required": [
+                    "id",
+                    "name",
+                    "start_time",
+                    "location"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "The unique ID of the event",
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "name": {
+                        "description": "The name of the event",
+                        "type": "string",
+                        "example": "Concert XYZ"
+                    },
+                    "start_time": {
+                        "description": "The start time of the event in ISO8601 format",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-11-10T20:00:00Z"
+                    },
+                    "end_time": {
+                        "description": "The end time of the event in ISO8601 format",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-11-10T23:00:00Z"
+                    },
+                    "location": {
+                        "description": "The location where the event is being held",
+                        "type": "string",
+                        "example": "Madison Square Garden"
+                    }
+                },
+                "type": "object"
+            },
+            "Ticket Resource": {
+                "title": "Ticket Resource",
+                "description": "A single ticket resource",
+                "required": [
+                    "id",
+                    "category",
+                    "price",
+                    "sold"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID of the Ticket",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "category": {
+                        "description": "The category of the ticket",
+                        "type": "string",
+                        "example": "Concert A"
+                    },
+                    "price": {
+                        "description": "Price of the ticket",
+                        "type": "number",
+                        "format": "float",
+                        "example": 99.99
+                    },
+                    "sold": {
+                        "description": "Number of tickets sold",
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "code": {
+                        "description": "Unique ticket code",
+                        "type": "string",
+                        "example": "ABC123XYZ"
+                    },
+                    "event_id": {
+                        "description": "Event's id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "description": "User's id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_name": {
+                        "description": "User's name",
+                        "type": "string",
+                        "example": "Jane Doe"
+                    },
+                    "purchase_date": {
+                        "description": "Time of purchase",
+                        "type": "date-time",
+                        "example": "2025-11-22T10:14:51.000000Z"
+                    },
+                    "event": {
+                        "$ref": "#/components/schemas/Event"
+                    }
+                },
+                "type": "object"
             }
         }
     },

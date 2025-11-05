@@ -30,7 +30,6 @@ class TicketController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="user_id", type="integer", example=1, description="ID of the user purchasing the ticket"),
      *             @OA\Property(property="event_id", type="integer", example=5, description="ID of the event"),
      *             @OA\Property(property="quantity", type="integer", example=2, description="Number of tickets to purchase")
      *         )
@@ -39,22 +38,11 @@ class TicketController extends Controller
      *         response=200,
      *         description="Ticket successfully purchased",
      *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="id", type="integer", example=1),
-     *             @OA\Property(property="event_id", type="integer", example=5),
-     *             @OA\Property(property="user_id", type="integer", example=1),
-     *             @OA\Property(property="quantity", type="integer", example=2),
-     *             @OA\Property(property="purchase_date", type="string", example="2023-10-12T12:00:00.000000Z"),
-     *             @OA\Property(property="event", type="object",
-     *                 @OA\Property(property="id", type="integer", example=5),
-     *                 @OA\Property(property="name", type="string", example="Tech Conference 2023"),
-     *                 @OA\Property(property="start_time", type="string", example="2023-10-20T10:00:00.000000Z"),
-     *                 @OA\Property(property="end_time", type="string", example="2023-10-20T13:00:00.000000Z")
-     *             )
+     *              ref="#/components/schemas/Ticket Resource"
      *         )
      *     ),
      *     @OA\Response(
-     *         response=400,
+     *         response=422,
      *         description="Invalid input data",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Validation error")
