@@ -70,4 +70,4 @@ jobs:
         run: php artisan migrate --no-interaction --force
 
       - name: Execute tests
-        run: php artisan test --verbose
+        run: php artisan test
