@@ -127,6 +127,7 @@ class TicketControllerTest extends TestCase
             self::assertEquals($ticketCategory->event_id, $data['event_id']);
             self::assertEquals($this->user->id, $data['user_id']);
             self::assertEquals($this->user->name, $data['user_name']);
+            self::assertNotEmpty($data['code']);
         }
     }
 }

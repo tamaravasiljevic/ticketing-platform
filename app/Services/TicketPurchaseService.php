@@ -11,7 +11,7 @@ class TicketPurchaseService
     public function buy($user, TicketCategory $category, $quantity)
     {
         $response = [];
-        return DB::transaction(function () use ($user, $category, $quantity) {
+        return DB::transaction(function () use ($user, $category, $quantity, $response) {
             // lock row - disable overselling
             $category = TicketCategory::where('id', $category->id)
                 ->lockForUpdate()
