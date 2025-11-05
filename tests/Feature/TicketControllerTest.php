@@ -24,6 +24,9 @@ class TicketControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * @see TicketController::purchase()
+     */
     public function test_ticket_purchase_without_required_fields()
     {
         $response = $this->actingAs($this->user)->postJson('/api/tickets/purchase', []);
@@ -34,6 +37,9 @@ class TicketControllerTest extends TestCase
         $response->assertJsonValidationErrors(['quantity']);
     }
 
+    /**
+     * @see TicketController::purchase()
+     */
     public function test_ticket_purchase_category_not_found ()
     {
         $response = $this->actingAs($this->user)->postJson('/api/tickets/purchase',
@@ -52,6 +58,9 @@ class TicketControllerTest extends TestCase
         );
     }
 
+    /**
+     * @see TicketController::purchase()
+     */
     public function test_ticket_purchase_max_number_tickets_per_user_exceeded()
     {
         $event = Event::factory()->create(
@@ -73,6 +82,9 @@ class TicketControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * @see TicketController::purchase()
+     */
     public function test_ticket_purchase_category_inactive()
     {
         $ticketCategory = TicketCategory::factory()->create(['is_active' => 0]);
@@ -89,6 +101,9 @@ class TicketControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * @see TicketController::purchase()
+     */
     public function test_ticket_purchase_category_sold_out()
     {
         $ticketCategory = TicketCategory::factory()->create(['quota' => 100, 'sold' => 100]);
@@ -105,6 +120,9 @@ class TicketControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * @see TicketController::purchase()
+     */
     public function test_ticket_purchase_success()
     {
         $ticketCategory = TicketCategory::factory()->create(['quota' => 100, 'price' => 99.99]);

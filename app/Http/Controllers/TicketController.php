@@ -8,6 +8,7 @@ use App\Http\Resources\TicketResource;
 use App\Models\TicketCategory;
 use App\Services\TicketPurchaseService;
 use Illuminate\Support\Facades\Log;
+use Tests\Feature\TicketControllerTest;
 
 /**
  * @OA\Info(
@@ -49,6 +50,13 @@ class TicketController extends Controller
      *         )
      *     )
      * )
+     *
+     * @see TicketControllerTest::test_ticket_purchase_without_required_fields()
+     * @see TicketControllerTest::test_ticket_purchase_category_not_found()
+     * @see TicketControllerTest::test_ticket_purchase_category_inactive()
+     * @see TicketControllerTest::test_ticket_purchase_category_sold_out()
+     * @see TicketControllerTest::test_ticket_purchase_max_number_tickets_per_user_exceeded()
+     * @see TicketControllerTest::test_ticket_purchase_success()
      */
     public function purchase(TicketPurchaseRequest $request, TicketPurchaseService $service)
     {
