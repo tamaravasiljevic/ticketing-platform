@@ -48,4 +48,8 @@ class Ticket extends Model
             'event_id'               // Local key on TicketCategory (to Event).
         );
     }
+
+    public function checkins() {
+        return $this->hasMany(Checkin::class);
+    }
 }

@@ -6,6 +6,116 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/check-in": {
+            "post": {
+                "tags": [
+                    "Check-in"
+                ],
+                "summary": "Perform a check-in for a ticket",
+                "description": "Endpoint is used to perform a check-in for a ticket by providing the ticket code.",
+                "operationId": "checkIn",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "description": "Unique ticket code",
+                                        "type": "string",
+                                        "example": "ABC123XYZ"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful check-in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Check-in uspješan"
+                                        },
+                                        "ticket_code": {
+                                            "type": "string",
+                                            "example": "ABC123XYZ"
+                                        },
+                                        "checked_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2025-10-25T14:23:00Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ticket not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Ticket with code: ABC123XYZ not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Ticket already redeemed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Ticket with code: ABC123XYZ already redeemed"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "An unexpected error occurred"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/tickets/purchase": {
             "post": {
                 "tags": [
@@ -174,6 +284,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Check-in",
+            "description": "Check-in"
+        },
         {
             "name": "Tickets",
             "description": "Tickets"
