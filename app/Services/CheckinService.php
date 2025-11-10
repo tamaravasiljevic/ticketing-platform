@@ -3,10 +3,7 @@ namespace App\Services;
 
 use App\Exceptions\TicketRedeemedException;
 use App\Models\Checkin;
-use App\Models\TicketCategory;
 use App\Models\Ticket;
-use Illuminate\Support\Facades\DB;
-use Exception;
 
 class CheckinService
 {
