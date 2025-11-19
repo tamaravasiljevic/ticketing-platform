@@ -21,11 +21,9 @@ return new class extends Migration
             $table->decimal('initial_value', 10, 2);
             $table->decimal('remaining_value', 10, 2);
             $table->string('currency', 3)->default('USD');
-
             $table->timestamp('expires_at')->nullable();
             $table->boolean('is_active')->default(true);
-
-            $table->json('metadata')->nullable(); // npr. {"message":"Sretan rođendan!"}
+            $table->json('metadata')->nullable(); // eg. {"message":"Happy birthday!"}
 
             $table->timestamps();
         });
