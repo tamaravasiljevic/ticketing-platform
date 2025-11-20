@@ -49,3 +49,5 @@ pnpm-debug.log*
 *.iml
 *.sublime-workspace
 *.sublime-project
+
+mysql-data/
