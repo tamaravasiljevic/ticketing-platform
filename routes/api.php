@@ -6,7 +6,6 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CheckinController;
 use App\Http\Controllers\CartController;
 
-// Use POST for login to align with best practices
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/tickets/purchase', [TicketController::class, 'purchase'])->middleware('auth:sanctum');
@@ -18,3 +17,6 @@ Route::prefix('/cart')->group(function () {
     Route::get('/', [CartController::class, 'getItems']);
     Route::post('/checkout', [CartController::class, 'checkout']);
 })->middleware('auth:sanctum');
+
+// todo: add logic for regenerating invoices
+//Route::get('invoices/{id}/regenerate')
