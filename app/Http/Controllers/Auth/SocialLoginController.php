@@ -21,7 +21,7 @@ class SocialLoginController extends Controller
     public function handleGitHubCallback()
     {
         try {
-            $socialUser = Socialite::driver('github')->user();
+            $socialUser = Socialite::driver('github')->stateless()->user();
             $this->handleLogin('github', $socialUser);
             return redirect()->route('dashboard');
         } catch (\Exception $e) {
